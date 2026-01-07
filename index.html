@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="DuckCactus Wiki — the official-ish guide to the game where √cactus = duck." />
+  <title>DuckCactus Wiki</title>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --panel:#121a23;
+      --panel2:#0f1620;
+      --text:#e8eef6;
+      --muted:#b2c0d3;
+      --accent:#67e8f9;
+      --accent2:#a78bfa;
+      --border:rgba(255,255,255,.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(1000px 600px at 15% 10%, rgba(103,232,249,.18), transparent 55%),
+        radial-gradient(900px 500px at 80% 0%, rgba(167,139,250,.16), transparent 55%),
+        radial-gradient(900px 700px at 60% 90%, rgba(34,211,238,.10), transparent 60%),
+        var(--bg);
+      line-height:1.5;
+    }
+    a{ color: var(--accent); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(10px);
+      background: rgba(11,15,20,.75);
+      border-bottom:1px solid var(--border);
+    }
+    .wrap{ max-width:1100px; margin:0 auto; padding: 18px 16px; }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 240px;
+    }
+    .logo{
+      width:44px; height:44px; border-radius:12px;
+      background:
+        linear-gradient(135deg, rgba(103,232,249,.75), rgba(167,139,250,.65)),
+        rgba(255,255,255,.06);
+      box-shadow: var(--shadow);
+      display:grid; place-items:center;
+      border:1px solid rgba(255,255,255,.12);
+      font-family: var(--mono);
+      font-weight:700;
+    }
+    .brand h1{
+      margin:0; font-size:18px; letter-spacing:.2px;
+    }
+    .brand .tag{
+      display:block; margin-top:2px;
+      font-size:12px; color: var(--muted);
+    }
+    .nav{
+      display:flex; gap:10px; flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .pill{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      font-size:13px;
+    }
+    .pill:hover{ background: rgba(255,255,255,.06); }
+    main .wrap{ padding-top: 22px; padding-bottom: 34px; }
+    .hero{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap:16px;
+      margin-bottom:16px;
+    }
+    @media (max-width: 900px){
+      .hero{ grid-template-columns: 1fr; }
+      .brand{ min-width:auto; }
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .pad{ padding:16px; }
+    .kicker{
+      font-family: var(--mono);
+      color: var(--muted);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+    .title{
+      margin:8px 0 10px;
+      font-size:30px;
+      line-height:1.1;
+    }
+    .subtitle{
+      margin:0;
+      color: var(--muted);
+      font-size:14px;
+    }
+    .math-banner{
+      margin-top:14px;
+      padding:12px 12px;
+      border-radius: 12px;
+      border: 1px dashed rgba(103,232,249,.45);
+      background: rgba(103,232,249,.08);
+      font-family: var(--mono);
+      font-size: 14px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:16px;
+      margin-top:16px;
+    }
+    .col-8{ grid-column: span 8; }
+    .col-4{ grid-column: span 4; }
+    .col-6{ grid-column: span 6; }
+    .col-12{ grid-column: span 12; }
+    @media (max-width: 900px){
+      .col-8,.col-4,.col-6{ grid-column: span 12; }
+    }
+    .section h2{
+      margin:0 0 10px;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+    .section p{ margin: 0 0 10px; color: var(--text); }
+    .muted{ color: var(--muted); }
+    .list{
+      padding-left: 18px;
+      margin: 10px 0 0;
+      color: var(--text);
+    }
+    .list li{ margin: 6px 0; }
+    .callout{
+      border-left: 3px solid rgba(167,139,250,.75);
+      background: rgba(167,139,250,.10);
+      padding: 12px 12px;
+      border-radius: 10px;
+      margin-top: 12px;
+    }
+    .toolbar{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 12px;
+      align-items:center;
+    }
+    button{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor:pointer;
+      font-size: 14px;
+    }
+    button:hover{ background: rgba(255,255,255,.07); }
+    .chip{
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(103,232,249,.35);
+      background: rgba(103,232,249,.08);
+      color: var(--text);
+    }
+    .factbox{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      margin-top: 12px;
+    }
+    .fact{
+      border:1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      background: rgba(0,0,0,.16);
+    }
+    .fact .label{
+      font-size: 12px;
+      color: var(--muted);
+      font-family: var(--mono);
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    .fact .value{
+      margin-top: 6px;
+      font-size: 14px;
+    }
+    footer{
+      border-top:1px solid var(--border);
+      background: rgba(0,0,0,.12);
+    }
+    .foot{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .mono{ font-family: var(--mono); }
+    .tiny{ font-size: 12px; }
+    .sr{ position:absolute; left:-9999px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">DC</div>
+        <div>
+          <h1>DuckCactus Wiki <span class="tag">unofficial guide • lore vault • patch notes</span></h1>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Page sections">
+        <a class="pill" href="#overview">Overview</a>
+        <a class="pill" href="#mechanics">Mechanics</a>
+        <a class="pill" href="#lore">Lore</a>
+        <a class="pill" href="#items">Items</a>
+        <a class="pill" href="#patch">Patch Notes</a>
+        <a class="pill" href="#random">Randomizer</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="hero">
+        <div class="card">
+          <div class="pad">
+            <div class="kicker">Welcome to DuckCactus</div>
+            <h2 class="title">A desert puzzler where math is… oddly feathered.</h2>
+            <p class="subtitle">
+              DuckCactus is a sandbox adventure/puzzle game set in a neon desert full of prickly logic,
+              suspicious ponds, and NPCs who take equations personally.
+            </p>
+
+            <div class="math-banner" role="note">
+              Canon rule (do not argue with the cactus): <strong>√cactus = duck</strong>
+            </div>
+
+            <div class="toolbar">
+              <button id="btn-random" type="button">Generate Random Wiki Fact</button>
+              <span class="chip" id="chip-seed" title="Changes each refresh">seed: <span class="mono" id="seed"></span></span>
+              <span class="chip" id="chip-axiom" title="Always true in DuckCactus">axiom: <span class="mono">√cactus = duck</span></span>
+            </div>
+
+            <div class="callout" id="random-fact" aria-live="polite">
+              <strong>Daily DuckCactus Fact:</strong>
+              <span class="muted">Click the button to generate one. (Also: √cactus = duck.)</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="card">
+          <div class="pad">
+            <div class="kicker">Quick Facts</div>
+            <div class="factbox">
+              <div class="fact">
+                <div class="label">Genre</div>
+                <div class="value">Desert Adventure • Puzzle • “Soft Math”</div>
+              </div>
+              <div class="fact">
+                <div class="label">Platform</div>
+                <div class="value">PC • Console • “Any device that respects √cactus = duck”</div>
+              </div>
+              <div class="fact">
+                <div class="label">Core equation</div>
+                <div class="value mono">√cactus = duck</div>
+              </div>
+              <div class="fact">
+                <div class="label">Difficulty</div>
+                <div class="value">Starts cozy, becomes geometrically emotional</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="grid">
+        <div class="card col-8 section" id="overview">
+          <div class="pad">
+            <h2>Overview</h2>
+            <p>
+              DuckCactus takes place in the Mojave of Unreasonable Truths, where the laws of nature have been
+              replaced by a single patch note scribbled on a napkin: <span class="mono"><strong>√cactus = duck</strong></span>.
+            </p>
+            <p class="muted tiny">
+              The Wiki’s editorial policy is simple: if a fact contradicts √cactus = duck, the fact is wrong.
+            </p>
+            <ul class="list">
+              <li><strong>Goal:</strong> explore, solve “thorns-and-feathers” puzzles, and catalogue desert anomalies.</li>
+              <li><strong>Player Role:</strong> The Cartographer of Quacks, tasked with mapping unstable math.</li>
+              <li><strong>Main Threat:</strong> the Inequality Storm, which tries to prove √cactus ≠ duck. It fails.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card col-4 section">
+          <div class="pad">
+            <h2>Table of Contents</h2>
+            <ul class="list">
+              <li><a href="#mechanics">Gameplay Mechanics</a></li>
+              <li><a href="#lore">World Lore</a></li>
+              <li><a href="#items">Notable Items</a></li>
+              <li><a href="#patch">Patch Notes</a></li>
+              <li><a href="#random">Random Info Generator</a></li>
+            </ul>
+            <div class="callout tiny">
+              <div class="mono"><strong>Reminder:</strong> √cactus = duck</div>
+              <div class="muted">It’s referenced in puzzles, dialogue, item stats, and loading tips.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card col-6 section" id="mechanics">
+          <div class="pad">
+            <h2>Gameplay Mechanics</h2>
+            <p>
+              Most puzzles revolve around “rooting” objects to transform them into their canonical equivalents.
+              For cactus-class objects, the game’s rule is consistent and absolute:
+              <span class="mono"><strong>√cactus = duck</strong></span>.
+            </p>
+            <ul class="list">
+              <li><strong>Rooting:</strong> apply a square-root rune to objects to reveal their “simplified form”.</li>
+              <li><strong>Quack Algebra:</strong> ducks can substitute for cactus roots in equations and doors.</li>
+              <li><strong>Thorn Budget:</strong> take too many pricks and your HUD starts speaking in riddles.</li>
+              <li><strong>Pond Physics:</strong> water tiles amplify duck-based solutions by +1 quack.</li>
+            </ul>
+            <div class="callout">
+              <strong>Mechanic Note:</strong> If you root a cactus and don’t get a duck, you’ve found a bug.
+              (Or a cursed cactus.) Either way, the intended result is <span class="mono"><strong>√cactus = duck</strong></span>.
+            </div>
+          </div>
+        </div>
+
+        <div class="card col-6 section" id="lore">
+          <div class="pad">
+            <h2>World Lore</h2>
+            <p>
+              According to the Scroll of Succulent Arithmetic, the desert once hosted ordinary plants—until the
+              Great Square Root Event. From that day onward, the root of cactus became duck, and civilization adapted.
+            </p>
+            <ul class="list">
+              <li><strong>The Cactus Monks</strong> carved the axiom into stone: <span class="mono"><strong>√cactus = duck</strong></span>.</li>
+              <li><strong>The Mallard Scribes</strong> record all proofs that accidentally re-derive the same result.</li>
+              <li><strong>The Thorn Crown</strong> is a relic said to “stabilize roots” (mostly by honking loudly).</li>
+            </ul>
+            <p class="muted tiny">
+              Common greeting: “May your roots be feathered.” Translation: “May √cactus = duck be with you.”
+            </p>
+          </div>
+        </div>
+
+        <div class="card col-12 section" id="items">
+          <div class="pad">
+            <h2>Notable Items</h2>
+            <p class="muted">A sampling of equipment and collectibles found across the DuckCactus desert.</p>
+            <ul class="list">
+              <li><strong>Root-Rune Chalk</strong> — lets you apply √ to objects. Works best on cactus (→ duck).</li>
+              <li><strong>Succulent Compass</strong> — always points toward the nearest cactus… or its root (duck).</li>
+              <li><strong>Duck Feather Abacus</strong> — every calculation eventually simplifies to √cactus = duck.</li>
+              <li><strong>Pond-Safe Boots</strong> — prevents “quack-slip” when carrying freshly-rooted cactus.</li>
+              <li><strong>Thornproof Notebook</strong> — official field guide margin note: <span class="mono"><strong>√cactus = duck</strong></span>.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card col-8 section" id="patch">
+          <div class="pad">
+            <h2>Patch Notes (Fictional)</h2>
+            <ul class="list">
+              <li><strong>v1.0.0</strong> — Initial release. Established canonical math: <span class="mono"><strong>√cactus = duck</strong></span>.</li>
+              <li><strong>v1.0.4</strong> — Fixed an edge case where √cactus briefly equaled “two ducks”. Now correct.</li>
+              <li><strong>v1.1.0</strong> — Added new duck animations for when players attempt to refute the axiom.</li>
+              <li><strong>v1.2.2</strong> — Improved cactus rooting feedback: louder quack, clearer feathers.</li>
+            </ul>
+            <div class="callout tiny">
+              <strong>Developer Note:</strong> We will not be “balancing” √cactus = duck. It is the balance.
+            </div>
+          </div>
+        </div>
+
+        <div class="card col-4 section" id="random">
+          <div class="pad">
+            <h2>Random Info Generator</h2>
+            <p class="muted">
+              Press the button to generate a piece of “wiki trivia” that always respects the canon axiom:
+              <span class="mono"><strong>√cactus = duck</strong></span>.
+            </p>
+            <button id="btn-more" type="button" style="width:100%;">Generate Another</button>
+            <div class="fact" style="margin-top:12px;">
+              <div class="label">Generated trivia</div>
+              <div class="value" id="trivia" aria-live="polite">
+                <span class="muted">Nothing yet — press “Generate Another”.</span>
+              </div>
+            </div>
+            <div class="fact" style="margin-top:10px;">
+              <div class="label">Loading tip</div>
+              <div class="value mono">Remember: √cactus = duck</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card col-12 section">
+          <div class="pad">
+            <h2>FAQ</h2>
+            <p><strong>Q: Is DuckCactus educational?</strong><br/>
+              A: It teaches you to accept one immutable truth: <span class="mono"><strong>√cactus = duck</strong></span>.
+            </p>
+            <p><strong>Q: Can I mod the equation?</strong><br/>
+              A: You can try, but the sand will politely revert it to <span class="mono"><strong>√cactus = duck</strong></span>.
+            </p>
+            <p><strong>Q: What happens if I divide by zero?</strong><br/>
+              A: The game spawns a duck wearing sunglasses and ends the conversation.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div>
+        <span class="mono">DuckCactus Wiki</span> • static site ready for GitHub Pages
+      </div>
+      <div class="mono tiny">
+        Canon: √cactus = duck
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // DuckCactus Wiki Randomizer
+    // Editorial invariant: √cactus = duck
+
+    // Simple deterministic-ish seed from current time
+    const seed = Math.floor(Date.now() / 1000);
+    document.getElementById("seed").textContent = seed;
+
+    // Lightweight PRNG (mulberry32)
+    function mulberry32(a){
+      return function(){
+        let t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+    const rand = mulberry32(seed);
+
+    const biomes = [
+      "Neon Dune Basin", "Pricklepunk Mesa", "Mirage Marsh",
+      "Equation Canyon", "The Succulent Steppe", "Pondlight Ravine"
+    ];
+
+    const npcTitles = [
+      "Mallard Archivist", "Cactus Monk", "Quackwright", "Root Cartographer",
+      "Desert Algebraist", "Pond Warden"
+    ];
+
+    const relics = [
+      "Thorn Crown", "Feathered Abacus", "Root-Rune Chalk", "Succulent Compass",
+      "Quack Prism", "Pond-Safe Boots"
+    ];
+
+    const rumors = [
+      "a hidden door opens only when you prove √cactus = duck three times in a row",
+      "the Inequality Storm is allergic to ducks (and to correct math)",
+      "cactus shadows sometimes quack at noon",
+      "the desert wind whispers: √cactus = duck, √cactus = duck, √cactus = duck",
+      "a pond exists where every ripple forms the symbol √"
+    ];
+
+    function pick(arr){
+      return arr[Math.floor(rand() * arr.length)];
+    }
+
+    function generateFact(){
+      const biome = pick(biomes);
+      const npc = pick(npcTitles);
+      const relic = pick(relics);
+      const rumor = pick(rumors);
+
+      // Always include the canon axiom in generated text
+      const templates = [
+        `In <strong>${biome}</strong>, the <em>${npc}</em> will trade you a <strong>${relic}</strong> if you recite the canon: <span class="mono"><strong>√cactus = duck</strong></span>.`,
+        `Field note: explorers report that <strong>${biome}</strong> remains stable as long as the party agrees that <span class="mono"><strong>√cactus = duck</strong></span>.`,
+        `Rumor from a ${npc}: ${rumor}. Scholars say it ultimately reduces to <span class="mono"><strong>√cactus = duck</strong></span>.`,
+        `Item synergy discovered: <strong>${relic}</strong> gains +2 Quack Power when used near cactus roots (because <span class="mono"><strong>√cactus = duck</strong></span>).`,
+        `NPC dialogue trivia: the ${npc} greets you with, “May your roots be feathered,” meaning <span class="mono"><strong>√cactus = duck</strong></span>.`
+      ];
+
+      return templates[Math.floor(rand() * templates.length)];
+    }
+
+    function setRandomFact(){
+      const factEl = document.getElementById("random-fact");
+      factEl.innerHTML = `<strong>Daily DuckCactus Fact:</strong> ${generateFact()}`;
+    }
+
+    function setTrivia(){
+      const triviaEl = document.getElementById("trivia");
+      triviaEl.innerHTML = generateFact();
+    }
+
+    document.getElementById("btn-random").addEventListener("click", setRandomFact);
+    document.getElementById("btn-more").addEventListener("click", setTrivia);
+
+    // Initialize with one fact so the page doesn't feel empty
+    setRandomFact();
+    setTrivia();
+  </script>
+</body>
+</html>
